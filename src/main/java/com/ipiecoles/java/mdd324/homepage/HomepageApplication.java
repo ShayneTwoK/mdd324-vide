@@ -54,6 +54,8 @@ class Horoscope {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
                     .parse(new InputSource(new StringReader(response.toString())));
 
+
+
             System.out.println(response);
             System.out.println(doc);
             NodeList errNodes = doc.getElementsByTagName("channel");
