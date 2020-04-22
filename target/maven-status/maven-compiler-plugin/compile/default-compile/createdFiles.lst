@@ -1,0 +1,8 @@
+com\ipiecoles\java\mdd324\homepage\LambdaStreamHandler.class
+com\ipiecoles\java\mdd324\homepage\model\Rss.class
+com\ipiecoles\java\mdd324\homepage\utils\Utils.class
+com\ipiecoles\java\mdd324\homepage\controller\RssController.class
+com\ipiecoles\java\mdd324\homepage\controller\Horoscope.class
+com\ipiecoles\java\mdd324\homepage\HomepageApplication.class
+com\ipiecoles\java\mdd324\homepage\model\Item.class
+com\ipiecoles\java\mdd324\homepage\model\Channel.class
