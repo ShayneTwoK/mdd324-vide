@@ -13,7 +13,7 @@ public class Item {
         return titre;
     }
 
-    @XmlElement(name="titre")
+    @XmlElement(name="title")
     public void setTitre(String titre) {
         this.titre = titre;
     }

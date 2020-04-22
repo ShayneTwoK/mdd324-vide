@@ -12,10 +12,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -24,65 +21,34 @@ import static jdk.nashorn.internal.objects.Global.println;
 @SpringBootApplication
 public class HomepageApplication {
 
-	public static void main(String[] args) throws JAXBException {
+	public static void main(String[] args) throws JAXBException, IOException {
 		SpringApplication.run(HomepageApplication.class, args);
 
         // PARAMETRES DE LA REQUETE HTTP
         String signe = "belier";
         // URL
         String url = "https://www.asiaflash.com/horoscope/rss_horojour_" + signe + ".xml";
+        URL objURL = new URL(url);
+
+        // CONNEXION API
+        HttpURLConnection connexionAPI = (HttpURLConnection) objURL.openConnection();
+        // XML to String
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(connexionAPI.getInputStream()));
+
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Rss.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         Rss rss = (Rss) jaxbUnmarshaller.unmarshal(new StringReader(url));
-        println(rss);
+
+        System.out.println(rss);
 	}
 
-}
-
-class Horoscope {
-
-    public void getReponseAPI() {
-        try {
-            // PARAMETRES DE LA REQUETE HTTP
-            String signe = "belier";
-            String format = "xml";
-            // URL
-            String url = "https://www.asiaflash.com/horoscope/rss_horojour_" + signe + "." + format;
-            System.out.println(url);
-            URL objURL = new URL(url);
-            // CONNEXION API
-            HttpURLConnection connexionAPI = (HttpURLConnection) objURL.openConnection();
-            int responseCode = connexionAPI.getResponseCode();
-            System.out.println("Code d'erreur : " + responseCode);
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connexionAPI.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            //print in String
-            // System.out.println(response.toString());
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(new InputSource(new StringReader(response.toString())));
-
-
-
-            System.out.println(response);
-            System.out.println(doc);
-            NodeList errNodes = doc.getElementsByTagName("channel");
-            // SI LA REQUETE NOUS RETOURNE UNE REPONSE
-            if (errNodes.getLength() > 0) {
-                Element err = (Element) errNodes.item(0);
-                System.out.println("signe -" + err.getElementsByTagName("signe").item(0).getTextContent());
-            } else {
-                // success
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 }
