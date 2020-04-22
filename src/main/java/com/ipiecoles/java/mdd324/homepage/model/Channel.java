@@ -6,13 +6,13 @@ import java.util.Date;
 
 @XmlRootElement
 public class Channel {
-    String titre;
-    String link;
-    String description;
-    String language;
-    String copyright;
-    Date datePublication;
-    Item item;
+        String titre;
+        String link;
+        String description;
+        String language;
+        String copyright;
+        Date datePublication;
+        Item item;
 
     public String getTitre() {
         return titre;
